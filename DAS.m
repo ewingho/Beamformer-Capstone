@@ -4,9 +4,9 @@ steer = steer*pi/180;
 DASsig = zeros(1,length(inSig));
 for i = 1:M
     if (steer <= pi/2)
-        tauSteer = round(sqrt((cos(steer))^2 + (sin(steer) + d*(i-1))^2)/c*fs);
+        tauSteer = round(d*i*sin(steer)/c*fs);
     elseif ((steer > pi/2) && (steer <= pi))
-        tauSteer = -round(sqrt((cos(steer))^2 + (sin(steer) + d*(i-1))^2)/c*fs);
+        tauSteer = -round(d*i*sin(steer)/c*fs);
     else
         tauSteer = 0;
     end

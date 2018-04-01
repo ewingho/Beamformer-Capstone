@@ -1,4 +1,4 @@
-function micSig = addRec(M, y, fs, c, d, inputTheta, time)
+function micSig = addRec2(M, y, fs, c, d, inputTheta, time)
 % Record your voice for 5 seconds.
 recObj = audiorecorder(fs, 16, 1);
 disp('Start speaking.')
@@ -15,6 +15,6 @@ myRecording = getaudiodata(recObj);
 % plot(t/fs,myRecording)
 % title(['Input Theta: ' int2str(inputTheta)])
 
-micSig = y + micArrayRec(M, fs, myRecording, c, d, inputTheta);
+micSig = micArrayRec2(M, fs, y, myRecording, c, d, inputTheta);
     
 end
