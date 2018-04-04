@@ -56,17 +56,15 @@ global y
 global x
 global h1
 global time
-global threshold
 
-time = 2;
+time = 0;
 fs = 20000;
 M = 20;
 c = 343;
 d = 0.5;
-threshold = 0;
-y = 0;
+y = zeros(1,2*fs);
 x = 0;
-t = 0;
+t
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -138,7 +136,7 @@ global x
 global h2
 
 y = addRec(M,y,fs,c,d,thetaIn,time);
-x = y(1,:);
+x = sum(y,1);
 t = 1:length(x);
 guidata(hObject, handles);
 plot(handles.axes1,t/fs,x)
@@ -234,10 +232,11 @@ function reset_Callback(hObject, eventdata, handles)
 global y
 global x
 global h1
-
+global time
+global fs
 x = 0;
-t = 0;
-y = 0;
+t = 0:1/fs:time;
+y = zeros(1,length(t)-1);
 clc
 'Signals reset'
 plot(handles.axes1,t,x)
@@ -340,28 +339,20 @@ global M
 global fs
 global d
 global c
-global thresholdMulti
+global threshold
 global time
 global h1
 global h2
 
 clc
 energyAngles = energyDetect(M, y, fs, c, d, time)
-
-maxSig = 0;
-for j = 1:length(energyAngles)
-    if (energyAngles(j) > maxSig)
-        maxSig = energyAngles(j);
-    end
-end
-    
 axes(handles.axes3)
 theta = 0:pi/180:pi;
 rho = zeros(1,length(theta));
 h1 = polar(theta,rho);
 title('Steering Direction')
 for i = 0:(length(energyAngles)-1)
-   if (energyAngles(i+1) > (0.5*thresholdMulti*maxSig))
+   if (energyAngles(i+1) > threshold)
     theta = -2*pi:pi/180:2*pi;
     rho = heaviside(theta-(5*i-5)*pi/180)-heaviside(theta-(5*i+5)*pi/180);
     textThresh = num2str(energyAngles(i+1));
@@ -381,8 +372,8 @@ function slider2_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-global thresholdMulti
-thresholdMulti = get(hObject,'Value')
+global threshold
+threshold = get(hObject,'Value')
 
 
 % --- Executes during object creation, after setting all properties.

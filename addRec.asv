@@ -14,10 +14,7 @@ myRecording = getaudiodata(recObj);
 % t = 1:length(myRecording);
 % plot(t/fs,myRecording)
 % title(['Input Theta: ' int2str(inputTheta)])
-if (y == 0)
-    micSig = y + micArrayRec(M, fs, myRecording, c, d, inputTheta);
-else
-    micSig = (y + micArrayRec(M, fs, myRecording, c, d, inputTheta))/2;
-end
+if (
+micSig = y + micArrayRec(M, fs, myRecording, c, d, inputTheta);
     
 end
